@@ -1,25 +1,50 @@
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
 body {
+  font-family: 'News Cycle', sans-serif;
   overflow-y: hidden;
   max-width: 100%;
+  background-image: url(../image/newspaper.jpg);
+  background-position: center top;
+  background-repeat: no-repeat;
+}
+h1 {
+  font-size: 80px;
+  margin-top: 150px;
+  margin-bottom: 50px;
+  text-align: center;
+  text-transform: uppercase;
+}
+.app {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  font-size: 1.1em;
 }
 .game {
-  width: 400px;
+  height: 400px;
   max-width: 100%;
   display: flex;
   align-items: flex-end;
-  height: 150px;
   position: relative;
+  background-image: url(../image/wall.jpg);
 }
 .hud {
+  margin: 10px;
   position: absolute;
   display: flex;
   width: 100%;
 }
 .level {
-  width: 50%;
+  width: 75%;
 }
 .score {
-  width: 50%;
+  width: 20%;
   text-align: right;
 }
 .warning-system,
@@ -41,19 +66,35 @@ body {
 .powerup {
   height: 25px;
 }
+.warning.duck {
+  width: 52px;
+  height: 75px;
+  background-image: url(../image/warnduck.png);
+}
 .warning.duck,
 .powerup.duck {
-  margin-left: 175px;
-  margin-bottom: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 28%;
+}
+.warning.left {
+  background-image: url(../image/warnleft.png);
+  width: 75px;
+  height: 52px;
 }
 .warning.left,
 .powerup.left {
-  margin-left: 100px;
+  margin-left: 25%;
   margin-bottom: 50px;
+}
+.warning.right {
+  background-image: url(../image/warnright.png);
+  width: 75px;
+  height: 52px;
 }
 .warning.right,
 .powerup.right {
-  margin-left: 250px;
+  margin-left: 62%;
   margin-bottom: 50px;
 }
 .detective {
@@ -63,18 +104,19 @@ body {
 }
 .detective.stand {
   height: 150px;
-  margin-left: 150px;
+  margin: 0 auto;
 }
 .detective.duck {
   margin-top: 50px;
-  margin-left: 150px;
+  margin: 0 auto;
 }
 .detective.left {
   width: 150px;
+  margin-left: 17%;
 }
 .detective.right {
   width: 150px;
-  margin-left: 250px;
+  margin-left: 58%;
 }
 .detective.dead {
   width: 100%;

@@ -8,20 +8,24 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.4/vue.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=News+Cycle" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
   <div class="app">
+    <h1>Detective Doge</h1>
     <div v-if="!isLoaded">Loading... {{progress}}%</div>
     <div class="game" v-if="isLoaded">
       <div class="hud">
-        <div class="level">Threat level: {{ level }}</div>
-        <div class="score">Score: {{score}} </div>
+        <div class="level">
+          <img src="image/mob.png" v-for="n in level">
+        </div>
+        <div class="score">{{score}}</div>
       </div>
       <div class="warning-system">
-        <div class="warning duck" v-show="hint === 'duck'">&darr;</div>
-        <div class="warning left" v-show="hint === 'left'">&larr;</div>
-        <div class="warning right" v-show="hint === 'right'">&rarr;</div>
+        <div class="warning duck" v-show="hint === 'duck'"></div>
+        <div class="warning left" v-show="hint === 'left'"></div>
+        <div class="warning right" v-show="hint === 'right'"></div>
       </div>
       <div class="powerup-container">
         <div class="powerup duck" v-show="powerUpLocation === 'duck'">&clubs;</div>
@@ -41,13 +45,6 @@
     </div>
   </div>
   <script type="text/javascript">
-    /*
-      As more mob members arrive
-      Have powerups that decrease the level.
-      Mob psycho reference % to mob's explosion
-      maybe like threat level
-    */
-
     //constants
     var startingSpeed = 700
     var speedDecrement = 50
@@ -218,6 +215,7 @@
       setTimeout(function() {
         var mgs = createjs.Sound.play("machineGun")
         mgs.volume = 0.25
+        app.hint = ""
         if (app.detectiveState === aliveChoice) {
           app.powerUpLocation = ""
           app.score += app.level
@@ -238,7 +236,7 @@
 
       document.onkeydown = checkKey
       setupTouch()
-      bgm = createjs.Sound.play("bgm")
+      bgm = createjs.Sound.play("bgm", {loop: -1})
     }
   </script>
 </body>
