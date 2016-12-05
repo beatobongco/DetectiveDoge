@@ -25,7 +25,6 @@ var app = new Vue({
           createjs.Sound.play("wilhelm")
         }, 100)
         this.score += app.level * 5
-        this.powerUpLocation = ""
         this.level--
         this.kills++
       }
@@ -167,7 +166,7 @@ function shootDetective() {
   createjs.Sound.play("woof")
 
   //chance to spawn powerup
-  if (app.level > 1 && Math.random() < 0.2) {
+  if (app.level > 1 && Math.random() < 0.15) {
     var arrowIndex = shotChoices.indexOf(aliveChoice)
 
     shotChoices.splice(arrowIndex, 1)
@@ -176,7 +175,9 @@ function shootDetective() {
 
   setTimeout(function() {
     app.hint = ""
-    if (app.detectiveState === aliveChoice || app.powerUpLocation) {
+    console.log("STATE",app.detectiveState)
+    console.log("POWER",app.powerUpLocation)
+    if (app.detectiveState === aliveChoice || app.detectiveState === app.powerUpLocation) {
       app.powerUpLocation = ""
       app.score += app.level
       app.counter++
@@ -195,7 +196,7 @@ function shootDetective() {
 }
 
 function startGame() {
-  gameLoop = setInterval(shootDetective, (startingSpeed + 500) - (app.level * speedDecrement))
+  gameLoop = setInterval(shootDetective, 1500)
 
   document.onkeydown = checkKey
   setupTouch()
