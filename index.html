@@ -93,6 +93,7 @@
     queue.loadFile({id: 'woof', src: 'sound/woof.mp3'})
     queue.loadFile({id: 'machineGun', src: 'sound/machine_gun.mp3'})
     queue.loadFile({id: 'death', src: 'sound/death.mp3'})
+    queue.loadFile({id: 'ahooga', src: 'sound/ahooga.mp3'})
     queue.loadFile("image/newspaper.jpg")
     queue.loadFile("image/wall.jpg")
     queue.loadFile("image/warnduck.png")
@@ -229,6 +230,7 @@
           app.counter++
 
           if (app.counter % 5 === 0) {
+            createjs.Sound.play("ahooga")
             app.level++
           }
         }
