@@ -146,6 +146,15 @@ h1 {
   h1 {
     display: none;
   }
+  .warning.left {
+    margin-left: 15%;
+  }
+  .warning.right {
+    margin-left: 67%;
+  }
+  .warning.duck {
+    margin-bottom: 30%;
+  }
 }
 
 @keyframes tada {

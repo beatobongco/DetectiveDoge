@@ -140,16 +140,16 @@ function surviveRound() {
 }
 
 function gameOver() {
-  var mgs = createjs.Sound.play("machineGun")
-  mgs.volume = 0.25
-  createjs.Sound.play("death")
-  app.detectiveState = "dead"
-  app.powerUpLocation = ""
-  app.hint = ""
-  hammertime.off("swipeleft swipedown swipeup swiperight")
-  clearInterval(gameLoop)
-  document.onkeydown = checkReset
-  bgm.stop()
+  // var mgs = createjs.Sound.play("machineGun")
+  // mgs.volume = 0.25
+  // createjs.Sound.play("death")
+  // app.detectiveState = "dead"
+  // app.powerUpLocation = ""
+  // app.hint = ""
+  // hammertime.off("swipeleft swipedown swipeup swiperight")
+  // clearInterval(gameLoop)
+  // document.onkeydown = checkReset
+  // bgm.stop()
 }
 
 function shootDetective() {
@@ -177,7 +177,7 @@ function shootDetective() {
   app.hint = aliveChoice
 
   //chance to spawn powerup
-  if (app.level > 1 && Math.random() < 0.15) {
+  if (app.level > 1 && Math.random() < 1) {
     var arrowIndex = shotChoices.indexOf(aliveChoice)
 
     shotChoices.splice(arrowIndex, 1)
