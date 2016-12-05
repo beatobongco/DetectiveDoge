@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title></title>
+  <title>Detective Doge</title>
+  <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.4/vue.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <style type="text/css">
     .app {
@@ -123,6 +125,7 @@
 
     var gameLoop = null
     var bgm = new Audio("sound/fast_talkin.mp3")
+    var whooshSound = new Audio("sound/whoosh.mp3")
 
     var app = new Vue({
       el: '.app',
@@ -152,9 +155,27 @@
       },
     })
 
+    //handle swipes
+    var hammertime = new Hammer(document.querySelector(".app"))
+    hammertime.on('swipeleft', function(e) {
+      app.detectiveState = "left"
+      whooshSound.play()
+    })
+    hammertime.on('swiperight', function(e) {
+      app.detectiveState = "right"
+      whooshSound.play()
+    })
+    hammertime.on('swipeup', function(e) {
+      app.detectiveState = "stand"
+      whooshSound.play()
+    })
+    hammertime.on('swipedown', function(e) {
+      app.detectiveState = "duck"
+      whooshSound.play()
+    })
+
     function checkKey(e) {
       e = e || window.event
-      var whooshSound = new Audio("sound/whoosh.mp3")
       if (e.keyCode == '38') {
         app.detectiveState = "stand"
         whooshSound.play()
