@@ -175,8 +175,6 @@ function shootDetective() {
   }
 
   setTimeout(function() {
-    var mgs = createjs.Sound.play("machineGun")
-    mgs.volume = 0.25
     app.hint = ""
     if (app.detectiveState === aliveChoice || app.powerUpLocation) {
       app.powerUpLocation = ""
@@ -189,6 +187,8 @@ function shootDetective() {
       }
     }
     else {
+      var mgs = createjs.Sound.play("machineGun")
+      mgs.volume = 0.25
       gameOver()
     }
   }, startingSpeed - (app.level * speedDecrement))

@@ -76,12 +76,15 @@ h1 {
   width: 52px;
   height: 75px;
   background-image: url(../image/warnduck.png);
+  margin-bottom: 20%;
 }
 .warning.duck,
 .powerup.duck {
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 20%;
+}
+.powerup.duck {
+  margin-bottom: 10%;
 }
 .warning.left {
   background-image: url(../image/warnleft.png);
