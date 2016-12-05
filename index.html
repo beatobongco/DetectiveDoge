@@ -34,9 +34,9 @@
       </div>
       <div class="detective dead" v-show="detectiveState === 'dead'">
       <p>You died.</p>
-      <p>Bullet dodged: {{counter * 4}}</p>
+      <p>Bullets dodged: {{counter * 4}}</p>
       <p>Mobsters killed: {{kills}}</p>
-      <p>Press "r" to restart.</p>
+      <p>Tap screen or press "r" to restart.</p>
       </div>
       <div class="detective stand" v-show="detectiveState === 'stand'"></div>
       <div class="detective duck" v-show="detectiveState === 'duck'"></div>
@@ -85,13 +85,19 @@
     queue.installPlugin(createjs.Sound)
     queue.on("complete", handleComplete)
     queue.on("progress", handleProgress)
-    queue.loadFile({id:'bgm', src: 'sound/fast_talkin.mp3'})
+    queue.loadFile({id: 'bgm', src: 'sound/fast_talkin.mp3'})
     queue.loadFile({id: 'whoosh', src: 'sound/whoosh.mp3'})
     queue.loadFile({id: 'pistol', src: 'sound/pistol.mp3'})
     queue.loadFile({id: 'wilhelm', src: 'sound/wilhelm.mp3'})
     queue.loadFile({id: 'woof', src: 'sound/woof.mp3'})
     queue.loadFile({id: 'machineGun', src: 'sound/machine_gun.mp3'})
     queue.loadFile({id: 'death', src: 'sound/death.mp3'})
+    queue.loadFile("image/newspaper.jpg")
+    queue.loadFile("image/wall.jpg")
+    queue.loadFile("image/warnduck.jpg")
+    queue.loadFile("image/warnleft.jpg")
+    queue.loadFile("image/warnright.jpg")
+    queue.loadFile("image/mob.jpg")
 
     var gameLoop = null
     var bgm = null
