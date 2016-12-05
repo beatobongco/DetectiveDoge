@@ -28,7 +28,7 @@ queue.loadFile({id: 'bgm', src: 'sound/fast_talkin.mp3'})
 queue.loadFile({id: 'whoosh', src: 'sound/whoosh.mp3'})
 queue.loadFile({id: 'pistol', src: 'sound/pistol.mp3'})
 queue.loadFile({id: 'wilhelm', src: 'sound/wilhelm.mp3'})
-queue.loadFile({id: 'woof', src: 'sound/woof.mp3'})
+queue.loadFile({id: 'bark', src: 'sound/bark.mp3'})
 queue.loadFile({id: 'machineGun', src: 'sound/machine_gun.mp3'})
 queue.loadFile({id: 'death', src: 'sound/death.mp3'})
 queue.loadFile({id: 'ahooga', src: 'sound/ahooga.mp3'})
@@ -185,7 +185,7 @@ function shootDetective() {
     createjs.Sound.play("ahooga")
   }
   else {
-    createjs.Sound.play("woof")
+    createjs.Sound.play("bark")
   }
 
   setTimeout(function() {
@@ -197,9 +197,7 @@ function shootDetective() {
     }
     else if (app.detectiveState === app.powerUpLocation) {
       createjs.Sound.play("pistol")
-      setTimeout(function() {
-        createjs.Sound.play("wilhelm")
-      }, 150)
+      createjs.Sound.play("wilhelm")
       app.score += app.level * 5
       app.level--
       app.kills++
