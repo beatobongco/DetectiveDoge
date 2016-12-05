@@ -221,3 +221,25 @@ h1 {
   animation-fill-mode: both;
   animation-name: flash;
 }
+
+@keyframes bounceOutDown {
+  20% {
+    transform: translate3d(0, 10px, 0);
+  }
+
+  40%, 45% {
+    opacity: 1;
+    transform: translate3d(0, -20px, 0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, 2000px, 0);
+  }
+}
+
+.bounceOutDown {
+  animation-duration: .5s;
+  animation-fill-mode: both;
+  animation-name: bounceOutDown;
+}

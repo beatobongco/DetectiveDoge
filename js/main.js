@@ -148,13 +148,20 @@ function gameOver() {
   var mgs = createjs.Sound.play("machineGun")
   mgs.volume = 0.25
   createjs.Sound.play("death")
-  app.detectiveState = "dead"
   app.powerUpLocation = ""
   app.hint = ""
   hammertime.off("swipeleft swipedown swipeup swiperight")
   clearInterval(gameLoop)
   document.onkeydown = checkReset
   bgm.stop()
+
+  //play death animation, get visible
+  document.querySelector(".detective." + app.detectiveState).classList.add("bounceOutDown")
+
+  setTimeout(function() {
+    document.querySelector(".detective." + app.detectiveState).classList.remove("bounceOutDown")
+    app.detectiveState = "dead"
+  }, 500)
 }
 
 function shootDetective() {
