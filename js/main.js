@@ -168,7 +168,9 @@ function shootDetective() {
 
   //chance to spawn powerup
   if (app.level > 1 && Math.random() < 0.2) {
-    shotChoices.push("stand")
+    var arrowIndex = shotChoices.indexOf(aliveChoice)
+
+    shotChoices.splice(arrowIndex, 1)
     app.powerUpLocation = randomChoice(shotChoices)
   }
 
@@ -176,7 +178,7 @@ function shootDetective() {
     var mgs = createjs.Sound.play("machineGun")
     mgs.volume = 0.25
     app.hint = ""
-    if (app.detectiveState === aliveChoice) {
+    if (app.detectiveState === aliveChoice || app.powerUpLocation) {
       app.powerUpLocation = ""
       app.score += app.level
       app.counter++
