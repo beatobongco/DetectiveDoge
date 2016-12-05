@@ -62,10 +62,9 @@
       watch: {
         detectiveState: function(val) {
           if (val === this.powerUpLocation) {
-            var pistolSound = new Audio('sound/pistol.mp3')
+
             pistolSound.play()
             setTimeout(function() {
-              var screamSound = new Audio("sound/wilhelm.mp3")
               screamSound.play()
             }, 100)
             this.score += 5
@@ -86,10 +85,18 @@
     queue.loadFile('sound/wilhelm.mp3')
     queue.loadFile('sound/woof.mp3')
     queue.loadFile('sound/machine_gun.mp3')
+    queue.loadFile('sound/death.mp3')
 
     var gameLoop = null
     var bgm = new Audio("sound/fast_talkin.mp3")
     var whooshSound = new Audio("sound/whoosh.mp3")
+    var mgSound = new Audio("sound/machine_gun.mp3")
+    var deathSound = new Audio("sound/death.mp3")
+    var hintSound = new Audio('sound/woof.mp3')
+    var pistolSound = new Audio('sound/pistol.mp3')
+    var screamSound = new Audio("sound/wilhelm.mp3")
+
+    mgSound.volume = 0.25
 
     function handleProgress(e) {
       console.log(e)
@@ -174,7 +181,6 @@
     }
 
     function gameOver() {
-      var deathSound = new Audio("sound/death.mp3")
       deathSound.play()
       app.detectiveState = "dead"
       app.powerUpLocation = ""
@@ -198,7 +204,6 @@
       app.lastShot = aliveChoice
       app.hint = aliveChoice
 
-      var hintSound = new Audio('sound/woof.mp3')
       hintSound.play()
 
       //10% chance to spawn powerup
@@ -208,8 +213,6 @@
       }
 
       setTimeout(function() {
-        var mgSound = new Audio("sound/machine_gun.mp3")
-        mgSound.volume = 0.25
         mgSound.play()
         if (app.detectiveState === aliveChoice) {
           app.powerUpLocation = ""
