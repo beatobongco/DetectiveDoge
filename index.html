@@ -72,7 +72,7 @@
             setTimeout(function() {
               createjs.Sound.play("wilhelm")
             }, 100)
-            this.score += 5
+            this.score += app.level * 5
             this.powerUpLocation = ""
             this.level--
             this.kills++
@@ -215,7 +215,7 @@
       createjs.Sound.play("woof")
 
       //10% chance to spawn powerup
-      if (app.level > 1 && Math.random() < 0.1) {
+      if (app.level > 1 && Math.random() < 0.2) {
         shotChoices.push("stand")
         app.powerUpLocation = randomChoice(shotChoices)
       }
@@ -226,7 +226,7 @@
         app.hint = ""
         if (app.detectiveState === aliveChoice) {
           app.powerUpLocation = ""
-          app.score += app.level * 5
+          app.score += app.level
           app.counter++
 
           if (app.counter % 5 === 0) {
