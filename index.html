@@ -21,7 +21,7 @@
         <div class="level">
           <img src="image/mob.png" v-for="n in level">
         </div>
-        <div class="score">{{score}}</div>
+        <div class="score">{{formattedScore}}</div>
       </div>
       <div class="warning-system">
         <div class="warning animated flash duck" v-show="hint === 'duck'"></div>
@@ -35,7 +35,7 @@
       </div>
       <div class="detective dead" v-show="detectiveState === 'dead'">
       <p>You died.</p> <br>
-      <p>You scored {{score}}!</p> <br>
+      <p>You scored {{formattedScore}}!</p> <br>
       <p>Bullets dodged: {{counter * 4}}</p>
       <p>Mobsters killed: {{kills}}</p>
       <p>Tap screen or press "r" to restart.</p>

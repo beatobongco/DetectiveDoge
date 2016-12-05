@@ -45,10 +45,10 @@ h1 {
   background-color: #c0392b;
 }
 .level {
-  width: 85%;
+  width: 75%;
 }
 .score {
-  width: 15%;
+  width: 25%;
   text-align: right;
   font-weight: 700;
   margin-right: 5px;

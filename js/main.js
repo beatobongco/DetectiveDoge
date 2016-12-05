@@ -17,6 +17,11 @@ var app = new Vue({
     prevPPLocation: "",
     kills: 0
   },
+  computed: {
+    formattedScore: function() {
+      return this.score.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+    }
+  }
 })
 
 //preload
@@ -130,7 +135,7 @@ function randomChoice(arr) {
 
 function surviveRound() {
   app.powerUpLocation = ""
-  app.score += app.level
+  app.score += app.level * 1000
   app.counter++
 
   if (app.counter % 5 === 0) {
@@ -198,7 +203,7 @@ function shootDetective() {
     else if (app.detectiveState === app.powerUpLocation) {
       createjs.Sound.play("pistol")
       createjs.Sound.play("wilhelm")
-      app.score += app.level * 5
+      app.score += app.level * 5000
       app.level--
       app.kills++
       app.prevPPLocation = app.powerUpLocation
