@@ -177,7 +177,7 @@ function shootDetective() {
   app.hint = aliveChoice
 
   //chance to spawn powerup
-  if (app.level > 1 && Math.random() < 1) {
+  if (app.level > 1 && Math.random() < 0.1) {
     var arrowIndex = shotChoices.indexOf(aliveChoice)
 
     shotChoices.splice(arrowIndex, 1)

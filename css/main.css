@@ -7,7 +7,7 @@ html {
 }
 body {
   font-family: 'News Cycle', sans-serif;
-  overflow-y: hidden;
+  overflow: hidden;
   max-width: 100%;
   background-image: url(../image/newspaper.jpg);
   background-position: center top;
@@ -144,16 +144,27 @@ h1 {
 }
 @media(max-width:767px){
   h1 {
-    display: none;
+    font-size: 40px;
+    margin-top: 35px;
+    margin-bottom: 35px;
   }
   .warning.left {
-    margin-left: 15%;
+    margin-left: 30px;
   }
   .warning.right {
-    margin-left: 67%;
+    margin-left: 300px;
   }
   .warning.duck {
-    margin-bottom: 30%;
+    margin-bottom: 175px;
+  }
+  .app {
+    max-width: 100%;
+  }
+  .powerup.left {
+    margin-left: 50px;
+  }
+  .powerup.right {
+    margin-left: 325px;
   }
 }
 
