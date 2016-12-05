@@ -24,14 +24,14 @@
         <div class="score">{{score}}</div>
       </div>
       <div class="warning-system">
-        <div class="warning duck" v-show="hint === 'duck'"></div>
-        <div class="warning left" v-show="hint === 'left'"></div>
-        <div class="warning right" v-show="hint === 'right'"></div>
+        <div class="warning animated flash duck" v-show="hint === 'duck'"></div>
+        <div class="warning animated flash left" v-show="hint === 'left'"></div>
+        <div class="warning animated flash right" v-show="hint === 'right'"></div>
       </div>
       <div class="powerup-container">
-        <div class="powerup duck" v-show="powerUpLocation === 'duck'"></div>
-        <div class="powerup left" v-show="powerUpLocation === 'left'"></div>
-        <div class="powerup right" v-show="powerUpLocation === 'right'"></div>
+        <div class="powerup animated tada duck" v-show="powerUpLocation === 'duck'"></div>
+        <div class="powerup animated tada left" v-show="powerUpLocation === 'left'"></div>
+        <div class="powerup animated tada right" v-show="powerUpLocation === 'right'"></div>
       </div>
       <div class="detective dead" v-show="detectiveState === 'dead'">
       <p>You died.</p> <br>

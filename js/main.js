@@ -14,21 +14,8 @@ var app = new Vue({
     counter: 0,
     lastShot: "",
     powerUpLocation: "",
+    prevPPLocation: "",
     kills: 0
-  },
-  watch: {
-    detectiveState: function(val) {
-      if (val === this.powerUpLocation) {
-
-        createjs.Sound.play("pistol")
-        setTimeout(function() {
-          createjs.Sound.play("wilhelm")
-        }, 100)
-        this.score += app.level * 5
-        this.level--
-        this.kills++
-      }
-    }
   },
 })
 
@@ -45,6 +32,7 @@ queue.loadFile({id: 'woof', src: 'sound/woof.mp3'})
 queue.loadFile({id: 'machineGun', src: 'sound/machine_gun.mp3'})
 queue.loadFile({id: 'death', src: 'sound/death.mp3'})
 queue.loadFile({id: 'ahooga', src: 'sound/ahooga.mp3'})
+queue.loadFile({id: 'footsteps', src: 'sound/footsteps.mp3'})
 queue.loadFile("image/newspaper.jpg")
 queue.loadFile("image/wall.jpg")
 queue.loadFile("image/warnduck.png")
@@ -124,6 +112,7 @@ function resetGame() {
   app.counter = 0
   app.lastShot = ""
   app.powerUpLocation = ""
+  app.prevPPLocation = ""
   app.kills = 0
   startGame()
 }
@@ -139,7 +128,20 @@ function randomChoice(arr) {
   return arr[Math.floor(arr.length * Math.random())];
 }
 
+function surviveRound() {
+  app.powerUpLocation = ""
+  app.score += app.level
+  app.counter++
+
+  if (app.counter % 5 === 0) {
+    createjs.Sound.play("footsteps", {loop: 1})
+    app.level++
+  }
+}
+
 function gameOver() {
+  var mgs = createjs.Sound.play("machineGun")
+  mgs.volume = 0.25
   createjs.Sound.play("death")
   app.detectiveState = "dead"
   app.powerUpLocation = ""
@@ -152,10 +154,21 @@ function gameOver() {
 
 function shootDetective() {
   var shotChoices = ["duck", "left", "right"]
+  //you cannot be shot in the same area as last time
+  //not as powerup
   var index = shotChoices.indexOf(app.lastShot)
 
   if (index > -1) {
     shotChoices.splice(index, 1)
+  }
+
+  if (app.prevPPLocation) {
+    var pIndex = shotChoices.indexOf(app.prevPPLocation)
+
+    if (pIndex > -1) {
+      shotChoices.splice(pIndex, 1)
+    }
+    app.prevPPLocation = ""
   }
 
   var aliveChoice = randomChoice(shotChoices)
@@ -163,40 +176,44 @@ function shootDetective() {
   app.lastShot = aliveChoice
   app.hint = aliveChoice
 
-  createjs.Sound.play("woof")
-
   //chance to spawn powerup
   if (app.level > 1 && Math.random() < 0.15) {
     var arrowIndex = shotChoices.indexOf(aliveChoice)
 
     shotChoices.splice(arrowIndex, 1)
     app.powerUpLocation = randomChoice(shotChoices)
+    createjs.Sound.play("ahooga")
+  }
+  else {
+    createjs.Sound.play("woof")
   }
 
   setTimeout(function() {
     app.hint = ""
-    console.log("STATE",app.detectiveState)
-    console.log("POWER",app.powerUpLocation)
-    if (app.detectiveState === aliveChoice || app.detectiveState === app.powerUpLocation) {
-      app.powerUpLocation = ""
-      app.score += app.level
-      app.counter++
-
-      if (app.counter % 5 === 0) {
-        createjs.Sound.play("ahooga")
-        app.level++
-      }
-    }
-    else {
+    if (app.detectiveState === aliveChoice) {
       var mgs = createjs.Sound.play("machineGun")
       mgs.volume = 0.25
+      surviveRound()
+    }
+    else if (app.detectiveState === app.powerUpLocation) {
+      createjs.Sound.play("pistol")
+      setTimeout(function() {
+        createjs.Sound.play("wilhelm")
+      }, 150)
+      app.score += app.level * 5
+      app.level--
+      app.kills++
+      app.prevPPLocation = app.powerUpLocation
+      surviveRound()
+    }
+    else {
       gameOver()
     }
   }, startingSpeed - (app.level * speedDecrement))
 }
 
 function startGame() {
-  gameLoop = setInterval(shootDetective, 1500)
+  gameLoop = setInterval(shootDetective, 1000)
 
   document.onkeydown = checkKey
   setupTouch()
