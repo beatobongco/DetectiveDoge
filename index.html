@@ -47,7 +47,7 @@
   </div>
   <script type="text/javascript">
     //constants
-    var startingSpeed = 700
+    var startingSpeed = 750
     var speedDecrement = 50
 
     var app = new Vue({
@@ -214,7 +214,7 @@
 
       createjs.Sound.play("woof")
 
-      //10% chance to spawn powerup
+      //chance to spawn powerup
       if (app.level > 1 && Math.random() < 0.2) {
         shotChoices.push("stand")
         app.powerUpLocation = randomChoice(shotChoices)
