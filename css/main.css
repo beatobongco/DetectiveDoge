@@ -166,6 +166,12 @@ h1 {
   .powerup.right {
     margin-left: 325px;
   }
+  .detective.left {
+    margin-left: 10px;
+  }
+  .detective.right {
+    margin-left: 250px;
+  }
 }
 
 @keyframes tada {
