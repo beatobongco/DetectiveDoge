@@ -3,7 +3,8 @@
 <head>
   <title>Detective Doge</title>
   <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/PreloadJS/0.6.0/preloadjs.min.js"></script>
+  <script src="https://code.createjs.com/preloadjs-0.6.2.min.js"></script>
+  <script src="https://code.createjs.com/soundjs-0.6.2.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.4/vue.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
@@ -27,7 +28,12 @@
         <div class="powerup left" v-show="powerUpLocation === 'left'">&clubs;</div>
         <div class="powerup right" v-show="powerUpLocation === 'right'">&clubs;</div>
       </div>
-      <div class="detective dead" v-show="detectiveState === 'dead'">You died. Press "r" to restart.</div>
+      <div class="detective dead" v-show="detectiveState === 'dead'">
+      <p>You died.</p>
+      <p>Bullet dodged: {{counter * 4}}</p>
+      <p>Mobsters killed: {{kills}}</p>
+      <p>Press "r" to restart.</p>
+      </div>
       <div class="detective stand" v-show="detectiveState === 'stand'"></div>
       <div class="detective duck" v-show="detectiveState === 'duck'"></div>
       <div class="detective left" v-show="detectiveState === 'left'"></div>
@@ -58,18 +64,20 @@
         counter: 0,
         lastShot: "",
         powerUpLocation: "",
+        kills: 0
       },
       watch: {
         detectiveState: function(val) {
           if (val === this.powerUpLocation) {
 
-            pistolSound.play()
+            createjs.Sound.play("pistol")
             setTimeout(function() {
-              screamSound.play()
+              createjs.Sound.play("wilhelm")
             }, 100)
             this.score += 5
             this.powerUpLocation = ""
             this.level--
+            this.kills++
           }
         }
       },
@@ -77,26 +85,19 @@
 
     //preload
     var queue = new createjs.LoadQueue(true)
+    queue.installPlugin(createjs.Sound)
     queue.on("complete", handleComplete)
     queue.on("progress", handleProgress)
-    queue.loadFile('sound/fast_talkin.mp3')
-    queue.loadFile('sound/whoosh.mp3')
-    queue.loadFile('sound/pistol.mp3')
-    queue.loadFile('sound/wilhelm.mp3')
-    queue.loadFile('sound/woof.mp3')
-    queue.loadFile('sound/machine_gun.mp3')
-    queue.loadFile('sound/death.mp3')
+    queue.loadFile({id:'bgm', src: 'sound/fast_talkin.mp3'})
+    queue.loadFile({id: 'whoosh', src: 'sound/whoosh.mp3'})
+    queue.loadFile({id: 'pistol', src: 'sound/pistol.mp3'})
+    queue.loadFile({id: 'wilhelm', src: 'sound/wilhelm.mp3'})
+    queue.loadFile({id: 'woof', src: 'sound/woof.mp3'})
+    queue.loadFile({id: 'machineGun', src: 'sound/machine_gun.mp3'})
+    queue.loadFile({id: 'death', src: 'sound/death.mp3'})
 
     var gameLoop = null
-    var bgm = new Audio("sound/fast_talkin.mp3")
-    var whooshSound = new Audio("sound/whoosh.mp3")
-    var mgSound = new Audio("sound/machine_gun.mp3")
-    var deathSound = new Audio("sound/death.mp3")
-    var hintSound = new Audio('sound/woof.mp3')
-    var pistolSound = new Audio('sound/pistol.mp3')
-    var screamSound = new Audio("sound/wilhelm.mp3")
-
-    mgSound.volume = 0.25
+    var bgm = null
 
     function handleProgress(e) {
       console.log(e)
@@ -106,6 +107,7 @@
     function handleComplete() {
       console.log("Loaded")
       app.isLoaded = true
+      startGame()
     }
 
 
@@ -122,19 +124,19 @@
       hammertime.get('swipe').set({ direction: Hammer.DIRECTION_ALL })
       hammertime.on('swipeleft', function(e) {
         app.detectiveState = "left"
-        whooshSound.play()
+        createjs.Sound.play("whoosh")
       })
       hammertime.on('swiperight', function(e) {
         app.detectiveState = "right"
-        whooshSound.play()
+        createjs.Sound.play("whoosh")
       })
       hammertime.on('swipeup', function(e) {
         app.detectiveState = "stand"
-        whooshSound.play()
+        createjs.Sound.play("whoosh")
       })
       hammertime.on('swipedown', function(e) {
         app.detectiveState = "duck"
-        whooshSound.play()
+        createjs.Sound.play("whoosh")
       })
     }
 
@@ -142,19 +144,19 @@
       e = e || window.event
       if (e.keyCode == '38') {
         app.detectiveState = "stand"
-        whooshSound.play()
+        createjs.Sound.play("whoosh")
       }
       else if (e.keyCode == '40') {
         app.detectiveState = "duck"
-        whooshSound.play()
+        createjs.Sound.play("whoosh")
       }
       else if (e.keyCode == '37') {
         app.detectiveState = "left"
-        whooshSound.play()
+        createjs.Sound.play("whoosh")
       }
       else if (e.keyCode == '39') {
         app.detectiveState = "right"
-        whooshSound.play()
+        createjs.Sound.play("whoosh")
       }
     }
 
@@ -166,6 +168,7 @@
       app.counter = 0
       app.lastShot = ""
       app.powerUpLocation = ""
+      app.kills = 0
       startGame()
     }
 
@@ -181,14 +184,14 @@
     }
 
     function gameOver() {
-      deathSound.play()
+      createjs.Sound.play("death")
       app.detectiveState = "dead"
       app.powerUpLocation = ""
       app.hint = ""
       hammertime.off("swipeleft swipedown swipeup swiperight")
       clearInterval(gameLoop)
       document.onkeydown = checkReset
-      bgm.pause()
+      bgm.stop()
     }
 
     function shootDetective() {
@@ -204,7 +207,7 @@
       app.lastShot = aliveChoice
       app.hint = aliveChoice
 
-      hintSound.play()
+      createjs.Sound.play("bark")
 
       //10% chance to spawn powerup
       if (app.level > 1 && Math.random() < 0.1) {
@@ -213,7 +216,8 @@
       }
 
       setTimeout(function() {
-        mgSound.play()
+        var mgs = createjs.Sound.play("machineGun")
+        mgs.volume = 0.25
         if (app.detectiveState === aliveChoice) {
           app.powerUpLocation = ""
           app.score += app.level
@@ -234,11 +238,8 @@
 
       document.onkeydown = checkKey
       setupTouch()
-      bgm.play()
+      bgm = createjs.Sound.play("bgm")
     }
-
-    startGame()
-
   </script>
 </body>
 </html>
