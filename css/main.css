@@ -1,8 +1,10 @@
 body {
-  overflow-y: hidden
+  overflow-y: hidden;
+  max-width: 100%;
 }
 .game {
   width: 400px;
+  max-width: 100%;
   display: flex;
   align-items: flex-end;
   height: 150px;
