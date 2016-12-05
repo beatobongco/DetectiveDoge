@@ -160,22 +160,32 @@
 
     //handle swipes
     var hammertime = new Hammer(document.querySelector(".app"))
-    hammertime.on('swipeleft', function(e) {
-      app.detectiveState = "left"
-      whooshSound.play()
+
+    hammertime.on('tap', function(e) {
+      if (app.detectiveState === "dead") {
+        resetGame()
+      }
     })
-    hammertime.on('swiperight', function(e) {
-      app.detectiveState = "right"
-      whooshSound.play()
-    })
-    hammertime.on('swipeup', function(e) {
-      app.detectiveState = "stand"
-      whooshSound.play()
-    })
-    hammertime.on('swipedown', function(e) {
-      app.detectiveState = "duck"
-      whooshSound.play()
-    })
+
+    function setupTouch() {
+      hammertime.get('swipe').set({ direction: Hammer.DIRECTION_ALL })
+      hammertime.on('swipeleft', function(e) {
+        app.detectiveState = "left"
+        whooshSound.play()
+      })
+      hammertime.on('swiperight', function(e) {
+        app.detectiveState = "right"
+        whooshSound.play()
+      })
+      hammertime.on('swipeup', function(e) {
+        app.detectiveState = "stand"
+        whooshSound.play()
+      })
+      hammertime.on('swipedown', function(e) {
+        app.detectiveState = "duck"
+        whooshSound.play()
+      })
+    }
 
     function checkKey(e) {
       e = e || window.event
@@ -197,22 +207,38 @@
       }
     }
 
+    function resetGame() {
+      app.level = 1
+      app.score = 0
+      app.detectiveState = "stand"
+      app.hint = ""
+      app.counter = 0
+      app.lastShot = ""
+      app.powerUpLocation = ""
+      startGame()
+    }
+
     function checkReset(e) {
       e = e || window.event
       if (e.keyCode == '82') {
-        app.level = 1
-        app.score = 0
-        app.detectiveState = "stand"
-        app.hint = ""
-        app.counter = 0
-        app.lastShot = ""
-        app.powerUpLocation = ""
-        startGame()
+        resetGame()
       }
     }
 
     function randomChoice(arr) {
       return arr[Math.floor(arr.length * Math.random())];
+    }
+
+    function gameOver() {
+      var deathSound = new Audio("sound/death.mp3")
+      deathSound.play()
+      app.detectiveState = "dead"
+      app.powerUpLocation = ""
+      app.hint = ""
+      hammertime.off("swipeleft swipedown swipeup swiperight")
+      clearInterval(gameLoop)
+      document.onkeydown = checkReset
+      bgm.pause()
     }
 
     function shootDetective() {
@@ -251,14 +277,7 @@
           }
         }
         else {
-          var deathSound = new Audio("sound/death.mp3")
-          deathSound.play()
-          app.detectiveState = "dead"
-          app.powerUpLocation = ""
-          app.hint = ""
-          clearInterval(gameLoop)
-          document.onkeydown = checkReset
-          bgm.pause()
+          gameOver()
         }
       }, startingSpeed - (app.level * speedDecrement))
     }
@@ -267,6 +286,7 @@
       gameLoop = setInterval(shootDetective, (startingSpeed + 500) - (app.level * speedDecrement))
 
       document.onkeydown = checkKey
+      setupTouch()
       bgm.play()
     }
 
