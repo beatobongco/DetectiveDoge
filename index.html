@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.4/vue.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+  <style type="text/css">
+    .app {
+      width: 400px;
+      display: flex;
+      align-items: flex-end;
+      height: 150px;
+      position: relative;
+    }
+    .hud {
+      position: absolute;
+      display: flex;
+      width: 100%;
+    }
+    .level {
+      width: 50%;
+    }
+    .score {
+      width: 50%;
+      text-align: right;
+    }
+    .warning-system,
+    .powerup-container {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: flex-end;
+    }
+    .warning,
+    .powerup {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .powerup {
+      height: 25px;
+    }
+    .warning.duck,
+    .powerup.duck {
+      margin-left: 175px;
+      margin-bottom: 100px;
+    }
+    .warning.left,
+    .powerup.left {
+      margin-left: 100px;
+      margin-bottom: 50px;
+    }
+    .warning.right,
+    .powerup.right {
+      margin-left: 250px;
+      margin-bottom: 50px;
+    }
+    .detective {
+      width: 100px;
+      height: 100px;
+      background-color: red;
+    }
+    .detective.stand {
+      height: 150px;
+      margin-left: 150px;
+    }
+    .detective.duck {
+      margin-top: 50px;
+      margin-left: 150px;
+    }
+    .detective.left {
+      width: 150px;
+    }
+    .detective.right {
+      width: 150px;
+      margin-left: 250px;
+    }
+    .detective.dead {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="hud">
+      <div class="level">Threat level: {{ level }}</div>
+      <div class="score">Score: {{score}} </div>
+    </div>
+    <div class="warning-system">
+      <div class="warning duck" v-show="hint === 'duck'">&darr;</div>
+      <div class="warning left" v-show="hint === 'left'">&larr;</div>
+      <div class="warning right" v-show="hint === 'right'">&rarr;</div>
+    </div>
+    <div class="powerup-container">
+      <div class="powerup duck" v-show="powerUpLocation === 'duck'">&clubs;</div>
+      <div class="powerup left" v-show="powerUpLocation === 'left'">&clubs;</div>
+      <div class="powerup right" v-show="powerUpLocation === 'right'">&clubs;</div>
+    </div>
+    <div class="detective dead" v-show="detectiveState === 'dead'">DEAD</div>
+    <div class="detective stand" v-show="detectiveState === 'stand'"></div>
+    <div class="detective duck" v-show="detectiveState === 'duck'"></div>
+    <div class="detective left" v-show="detectiveState === 'left'"></div>
+    <div class="detective right" v-show="detectiveState === 'right'"></div>
+  </div>
+  <script type="text/javascript">
+    /*
+      As more mob members arrive
+      Have powerups that decrease the level.
+      Mob psycho reference % to mob's explosion
+      maybe like threat level
+    */
+
+    //constants
+    var startingSpeed = 500
+    var speedDecrement = 50
+
+    var gameLoop = null
+    var bgm = new Audio("sound/fast_talkin.mp3")
+
+    var app = new Vue({
+      el: '.app',
+      data: {
+        level: 1,
+        score: 0,
+        detectiveState: "stand",
+        hint: "",
+        counter: 0,
+        lastShot: "",
+        powerUpLocation: "",
+      },
+      watch: {
+        detectiveState: function(val) {
+          if (val === this.powerUpLocation) {
+            var pistolSound = new Audio('sound/pistol.mp3')
+            pistolSound.play()
+            setTimeout(function() {
+              var screamSound = new Audio("sound/wilhelm.mp3")
+              screamSound.play()
+            }, 100)
+            this.score += 5
+            this.powerUpLocation = ""
+            this.level--
+          }
+        }
+      },
+    })
+
+    function checkKey(e) {
+      e = e || window.event
+      var whooshSound = new Audio("sound/whoosh.mp3")
+      if (e.keyCode == '38') {
+        app.detectiveState = "stand"
+        whooshSound.play()
+      }
+      else if (e.keyCode == '40') {
+        app.detectiveState = "duck"
+        whooshSound.play()
+      }
+      else if (e.keyCode == '37') {
+        app.detectiveState = "left"
+        whooshSound.play()
+      }
+      else if (e.keyCode == '39') {
+        app.detectiveState = "right"
+        whooshSound.play()
+      }
+    }
+
+    function checkReset(e) {
+      e = e || window.event
+      if (e.keyCode == '82') {
+        app.level = 1
+        app.score = 0
+        app.detectiveState = "stand"
+        app.hint = ""
+        app.counter = 0
+        app.lastShot = ""
+        app.powerUpLocation = ""
+        startGame()
+      }
+    }
+
+    function randomChoice(arr) {
+      return arr[Math.floor(arr.length * Math.random())];
+    }
+
+    function shootDetective() {
+      var shotChoices = ["duck", "left", "right"]
+      var index = shotChoices.indexOf(app.lastShot)
+
+      if (index > -1) {
+        shotChoices.splice(index, 1)
+      }
+
+      var aliveChoice = randomChoice(shotChoices)
+
+      app.lastShot = aliveChoice
+      app.hint = aliveChoice
+
+      var hintSound = new Audio('sound/woof.mp3')
+      hintSound.play()
+
+      //10% chance to spawn powerup
+      if (app.level > 1 && Math.random() < 0.1) {
+        shotChoices.push("stand")
+        app.powerUpLocation = randomChoice(shotChoices)
+      }
+
+      setTimeout(function() {
+        var mgSound = new Audio("sound/machine_gun.mp3")
+        mgSound.volume = 0.25
+        mgSound.play()
+        if (app.detectiveState === aliveChoice) {
+          app.powerUpLocation = ""
+          app.score += app.level
+          app.counter++
+
+          if (app.counter % 5 === 0) {
+            app.level++
+          }
+        }
+        else {
+          var deathSound = new Audio("sound/death.mp3")
+          deathSound.play()
+          app.detectiveState = "dead"
+          app.powerUpLocation = ""
+          app.hint = ""
+          clearInterval(gameLoop)
+          document.onkeydown = checkReset
+          bgm.pause()
+        }
+      }, startingSpeed - (app.level * speedDecrement))
+    }
+
+    function startGame() {
+      gameLoop = setInterval(shootDetective, (startingSpeed + 500) - (app.level * speedDecrement))
+
+      document.onkeydown = checkKey
+      bgm.play()
+    }
+
+    startGame()
+
+  </script>
+</body>
+</html>
