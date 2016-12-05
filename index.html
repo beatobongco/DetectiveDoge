@@ -8,7 +8,7 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.4/vue.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
-  <link href="https://fonts.googleapis.com/css?family=News+Cycle" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=News+Cycle:400,700" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
@@ -28,12 +28,12 @@
         <div class="warning right" v-show="hint === 'right'"></div>
       </div>
       <div class="powerup-container">
-        <div class="powerup duck" v-show="powerUpLocation === 'duck'">&clubs;</div>
-        <div class="powerup left" v-show="powerUpLocation === 'left'">&clubs;</div>
-        <div class="powerup right" v-show="powerUpLocation === 'right'">&clubs;</div>
+        <div class="powerup duck" v-show="powerUpLocation === 'duck'"></div>
+        <div class="powerup left" v-show="powerUpLocation === 'left'"></div>
+        <div class="powerup right" v-show="powerUpLocation === 'right'"></div>
       </div>
       <div class="detective dead" v-show="detectiveState === 'dead'">
-      <p>You died.</p>
+      <p>You died.</p> <br>
       <p>Bullets dodged: {{counter * 4}}</p>
       <p>Mobsters killed: {{kills}}</p>
       <p>Tap screen or press "r" to restart.</p>
@@ -98,6 +98,7 @@
     queue.loadFile("image/warnleft.png")
     queue.loadFile("image/warnright.png")
     queue.loadFile("image/mob.png")
+    queue.loadFile("image/headshot.png")
 
     var gameLoop = null
     var bgm = null
@@ -223,7 +224,7 @@
         app.hint = ""
         if (app.detectiveState === aliveChoice) {
           app.powerUpLocation = ""
-          app.score += app.level
+          app.score += app.level * 5
           app.counter++
 
           if (app.counter % 5 === 0) {

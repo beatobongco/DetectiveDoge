@@ -46,6 +46,7 @@ h1 {
 .score {
   width: 20%;
   text-align: right;
+  font-weight: 700;
 }
 .warning-system,
 .powerup-container {
@@ -64,7 +65,12 @@ h1 {
   justify-content: center;
 }
 .powerup {
-  height: 25px;
+  width: 32px;
+  height: 32px;
+  background-image: url(../image/headshot.png);
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 5px;
 }
 .warning.duck {
   width: 52px;
@@ -75,7 +81,7 @@ h1 {
 .powerup.duck {
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 28%;
+  margin-bottom: 20%;
 }
 .warning.left {
   background-image: url(../image/warnleft.png);
@@ -85,7 +91,7 @@ h1 {
 .warning.left,
 .powerup.left {
   margin-left: 25%;
-  margin-bottom: 50px;
+  margin-bottom: 35px;
 }
 .warning.right {
   background-image: url(../image/warnright.png);
@@ -95,12 +101,12 @@ h1 {
 .warning.right,
 .powerup.right {
   margin-left: 62%;
-  margin-bottom: 50px;
+  margin-bottom: 35px;
 }
 .detective {
   width: 100px;
   height: 100px;
-  background-color: red;
+  background-color: #ecf0f1;
 }
 .detective.stand {
   height: 150px;
@@ -125,6 +131,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #c0392b;
 }
 .detective.dead p {
   margin: 0;
