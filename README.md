@@ -12,7 +12,7 @@ Use the `WASD` or arrow keys to dodge in a certain direction.
 
 As time passes, more mobsters appear and you must dodge faster to avoid their bullets.
 
-Red arrows are your "doge sense" and indicate where you should dodge to avoid getting shot.
+Red arrows are your "doge sense" and indicate in which direction you should dodge to avoid getting shot.
 
 Headshot opportunities (powerups) appear from time to time. Pick these up to kill a mobster and gain more points. Picking up a powerup is counted as avoiding the current round of bullets.
 
