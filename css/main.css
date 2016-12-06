@@ -137,6 +137,7 @@ h1 {
 .detective {
   width: 100px;
   height: 100px;
+  z-index: 100;
 }
 .detective.stand {
   width: 141px;

@@ -189,6 +189,10 @@ queue.loadFile("image/warnleft.png")
 queue.loadFile("image/warnright.png")
 queue.loadFile("image/mob.png")
 queue.loadFile("image/headshot.png")
+queue.loadFile("image/corgi_stand.png")
+queue.loadFile("image/corgi_down.png")
+queue.loadFile("image/corgi_left.png")
+queue.loadFile("image/corgi_right.png")
 
 function handleProgress(e) {
   app.progress = Math.floor(e.progress * 100)
