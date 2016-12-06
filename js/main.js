@@ -17,7 +17,9 @@ var app = new Vue({
     powerUpLocation: "",
     prevPPLocation: "",
     kills: 0,
-    hammertime: null
+    hammertime: null,
+    gameLoop: null,
+    bgm: null
   },
   computed: {
     formattedScore: function() {
@@ -35,11 +37,11 @@ var app = new Vue({
   methods: {
     startGame: function() {
       this.isPlaying = true
-      gameLoop = setInterval(this.shootDetective, 1000)
+      this.gameLoop = setInterval(this.shootDetective, 1000)
 
       document.onkeydown = checkKey
       this.setupTouch()
-      bgm = createjs.Sound.play("bgm", {loop: -1})
+      this.bgm = createjs.Sound.play("bgm", {loop: -1})
       createjs.Sound.play("footsteps", {loop: 1})
     },
     gameOver: function() {
@@ -49,8 +51,8 @@ var app = new Vue({
       this.powerUpLocation = ""
       this.hint = ""
       this.hammertime.off("swipeleft swipedown swipeup swiperight")
-      clearInterval(gameLoop)
-      bgm.stop()
+      clearInterval(this.gameLoop)
+      this.bgm.stop()
 
       //play death animation, get visible
       document.onkeydown = null
@@ -187,9 +189,6 @@ queue.loadFile("image/warnleft.png")
 queue.loadFile("image/warnright.png")
 queue.loadFile("image/mob.png")
 queue.loadFile("image/headshot.png")
-
-var gameLoop = null
-var bgm = null
 
 function handleProgress(e) {
   app.progress = Math.floor(e.progress * 100)

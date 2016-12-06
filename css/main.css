@@ -137,22 +137,30 @@ h1 {
 .detective {
   width: 100px;
   height: 100px;
-  background-color: #ecf0f1;
 }
 .detective.stand {
-  height: 150px;
+  width: 141px;
+  height: 170px;
+  background-image: url(../image/corgi_stand.png);
   margin: 0 auto;
 }
 .detective.duck {
+  width: 136px;
+  height: 137px;
+  background-image: url(../image/corgi_down.png);
   margin-top: 50px;
   margin: 0 auto;
 }
 .detective.left {
-  width: 150px;
+  width: 187px;
+  height: 122px;
+  background-image: url(../image/corgi_left.png);
   margin-left: 17%;
 }
 .detective.right {
-  width: 150px;
+  width: 174px;
+  height: 132px;
+  background-image: url(../image/corgi_right.png);
   margin-left: 58%;
 }
 .detective.dead {
