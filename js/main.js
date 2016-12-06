@@ -53,6 +53,7 @@ var app = new Vue({
       bgm.stop()
 
       //play death animation, get visible
+      document.onkeydown = null
       document.querySelector(".detective." + app.detectiveState).classList.add("bounceOutDown")
 
       setTimeout(function() {
