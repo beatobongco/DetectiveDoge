@@ -19,7 +19,7 @@
     <div class="game" v-if="isLoaded">
       <div class="hud">
         <div class="level">
-          <img src="image/mob.png" v-for="n in level">
+          <img class="mobster animated fadeInRight" src="image/mob.png" v-for="n in level">
         </div>
         <div class="score">{{formattedScore}}</div>
       </div>

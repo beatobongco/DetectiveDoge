@@ -189,7 +189,7 @@ function shootDetective() {
   app.hint = aliveChoice
 
   //chance to spawn powerup
-  if (app.level > 1 && Math.random() < 0.1) {
+  if (app.level > 1 && Math.random() < 1) {
     var arrowIndex = shotChoices.indexOf(aliveChoice)
 
     shotChoices.splice(arrowIndex, 1)
@@ -211,7 +211,10 @@ function shootDetective() {
       createjs.Sound.play("pistol")
       createjs.Sound.play("wilhelm")
       app.score += app.level * 5000
-      app.level--
+      document.querySelector(".mobster:last-child").classList.add("bounceOut")
+      setTimeout(function() {
+        app.level--
+      }, 500)
       app.kills++
       app.prevPPLocation = app.powerUpLocation
       surviveRound()
@@ -228,4 +231,5 @@ function startGame() {
   document.onkeydown = checkKey
   setupTouch()
   bgm = createjs.Sound.play("bgm", {loop: -1})
+  createjs.Sound.play("footsteps", {loop: 1})
 }
