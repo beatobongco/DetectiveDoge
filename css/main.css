@@ -21,6 +21,27 @@ h1 {
   text-transform: uppercase;
   text-decoration: underline;
 }
+.loading-screen {
+  height: 400px;
+  display: flex;
+  font-size: 30px;
+  align-items: center;
+  justify-content: center;
+}
+.menu-screen {
+
+}
+.menu-screen ul {
+  text-align: center;
+  list-style-type: none;
+}
+.menu-screen ul li {
+  cursor: pointer;
+  margin: 10px 0;
+}
+.menu-screen ul li:hover {
+  text-decoration: underline;
+}
 .app {
   max-width: 600px;
   width: 100%;
@@ -146,6 +167,7 @@ h1 {
 .detective.dead p {
   margin: 0;
 }
+
 @media(max-width:767px){
   h1 {
     font-size: 40px;

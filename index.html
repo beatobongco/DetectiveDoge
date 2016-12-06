@@ -8,6 +8,7 @@
   <script src="https://code.createjs.com/soundjs-0.6.2.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.4/vue.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.4.3/localforage.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <link href="https://fonts.googleapis.com/css?family=News+Cycle:400,700" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="css/main.css">
@@ -15,8 +16,16 @@
 <body>
   <div class="app">
     <h1>Detective Doge</h1>
-    <div v-if="!isLoaded">Loading... {{progress}}%</div>
-    <div class="game" v-if="isLoaded">
+    <div class="loading-screen" v-if="!isLoaded">
+      Loading... {{progress}}%
+    </div>
+    <div class="menu-screen" v-if="isLoaded && !isPlaying">
+      <ul>
+        <li v-on:click="startGame">Play</li>
+        <li>Credits</li>
+      </ul>
+    </div>
+    <div class="game" v-if="isPlaying">
       <div class="hud">
         <div class="level">
           <img class="mobster animated fadeInRight" src="image/mob.png" v-for="n in level">
