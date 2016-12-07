@@ -7,7 +7,7 @@
   <script src="https://code.createjs.com/preloadjs-0.6.2.min.js"></script>
   <script src="https://code.createjs.com/soundjs-0.6.2.min.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.4/vue.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.js"></script>
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/localforage/1.4.3/localforage.min.js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
   <link href="https://fonts.googleapis.com/css?family=News+Cycle:400,700" rel="stylesheet">
@@ -16,22 +16,34 @@
 <body>
   <div class="app">
     <h1>Detective Doge</h1>
+
     <div class="loading-screen" v-if="!isLoaded">
       Loading... {{progress}}%
     </div>
+
     <div class="menu-screen" v-if="isLoaded && !isPlaying">
       <ul>
         <li v-on:click="startGame">Play</li>
         <li>Credits</li>
       </ul>
     </div>
-    <div class="game" v-if="isPlaying">
+
+    <div class="game" v-show="isPlaying">
+
       <div class="hud">
         <div class="level">
           <img class="mobster animated fadeInRight" src="image/mob.png" v-for="n in level">
         </div>
         <div class="score">{{formattedScore}}</div>
       </div>
+
+      <div class="bullet-container">
+        <div class="bullet duck" v-show="hint === 'duck'"></div>
+        <div class="bullet duck" v-show="hint === 'left'"></div>
+        <div class="bullet duck" v-show="hint === 'right'"></div>
+        <div class="bullet all" v-show="powerUpLocation === 'stand'"></div>
+      </div>
+
       <div class="warning-system">
         <div class="warning animated flash duck" v-show="hint === 'duck'"></div>
         <div class="warning animated flash left" v-show="hint === 'left'"></div>
@@ -44,11 +56,11 @@
         <div class="powerup animated tada right" v-show="powerUpLocation === 'right'"></div>
       </div>
       <div class="detective dead" v-show="detectiveState === 'dead'">
-      <p>You died.</p> <br>
-      <p>You scored {{formattedScore}}!</p> <br>
-      <p>Bullets dodged: {{counter * 4}}</p>
-      <p>Mobsters killed: {{kills}}</p> <br>
-      <p>Tap screen or press "r" to restart.</p>
+        <p>You died.</p> <br>
+        <p>You scored {{formattedScore}}!</p> <br>
+        <p>Bullets dodged: {{counter * 4}}</p>
+        <p>Mobsters killed: {{kills}}</p> <br>
+        <p>Tap screen or press "r" to restart.</p>
       </div>
       <div class="detective stand" v-show="detectiveState === 'stand'"></div>
       <div class="detective duck" v-show="detectiveState === 'duck'"></div>

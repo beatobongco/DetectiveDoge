@@ -27,36 +27,40 @@ var app = new Vue({
       return this.score.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     }
   },
-  mounted: function() {
-    this.hammertime = new Hammer(document.querySelector(".app"))
-    this.hammertime.on('tap', function(e) {
-      if (app.detectiveState === "dead") {
-        app.resetGame()
-      }
-    })
-  },
   methods: {
+    removeControls: function() {
+      document.onkeydown = null
+      this.hammertime.off("swipeleft swipedown swipeup swiperight")
+    },
     startGame: function() {
       this.isPlaying = true
       this.gameLoop = setInterval(this.shootDetective, 1000)
-
-      document.onkeydown = checkKey
-      this.setupTouch()
+      this.hammertime = new Hammer(document.querySelector(".app"))
+      this.hammertime.on('tap', function(e) {
+        if (app.detectiveState === "dead") {
+          app.resetGame()
+        }
+      })
+      this.hammertime.get('swipe').set({ direction: Hammer.DIRECTION_ALL })
+      this.setupControls()
       this.bgm = createjs.Sound.play("bgm", {loop: -1})
       createjs.Sound.play("footsteps", {loop: 1})
     },
     gameOver: function() {
       var mgs = createjs.Sound.play("machineGun")
+
       mgs.volume = 0.25
       createjs.Sound.play("death")
+
       this.powerUpLocation = ""
       this.hint = ""
-      this.hammertime.off("swipeleft swipedown swipeup swiperight")
-      clearInterval(this.gameLoop)
       this.bgm.stop()
 
+      this.removeControls()
+
+      clearInterval(this.gameLoop)
+
       //play death animation, get visible
-      document.onkeydown = null
       document.querySelector(".detective." + app.detectiveState).classList.add("bounceOutDown")
 
       setTimeout(function() {
@@ -78,6 +82,7 @@ var app = new Vue({
       this.startGame()
     },
     shootDetective: function() {
+      this.setupControls()
       var shotChoices = ["duck", "left", "right"]
       //you cannot be shot in the same area as last time
       //not as powerup
@@ -158,24 +163,40 @@ var app = new Vue({
         this.level++
       }
     },
-    setupTouch: function() {
-      this.hammertime.get('swipe').set({ direction: Hammer.DIRECTION_ALL })
+    setupControls: function() {
+      document.onkeydown = function(e) {
+        e = e || window.event
+        if (e.keyCode == '38' || e.keyCode == '87') {
+          app.moveDetective("stand")
+        }
+        else if (e.keyCode == '40' || e.keyCode == '83') {
+          app.moveDetective("duck")
+        }
+        else if (e.keyCode == '37' || e.keyCode == '65') {
+          app.moveDetective("left")
+        }
+        else if (e.keyCode == '39' || e.keyCode == '68') {
+          app.moveDetective("right")
+        }
+      }
+
       this.hammertime.on('swipeleft', function(e) {
-        app.detectiveState = "left"
-        createjs.Sound.play("whoosh")
+        app.moveDetective("left")
       })
       this.hammertime.on('swiperight', function(e) {
-        app.detectiveState = "right"
-        createjs.Sound.play("whoosh")
+        app.moveDetective("right")
       })
       this.hammertime.on('swipeup', function(e) {
-        app.detectiveState = "stand"
-        createjs.Sound.play("whoosh")
+        app.moveDetective("stand")
       })
       this.hammertime.on('swipedown', function(e) {
-        app.detectiveState = "duck"
-        createjs.Sound.play("whoosh")
+        app.moveDetective("duck")
       })
+    },
+    moveDetective: function(direction) {
+      app.detectiveState = direction
+      createjs.Sound.play("whoosh")
+      app.removeControls()
     }
   }
 })
@@ -212,26 +233,6 @@ function handleProgress(e) {
 
 function handleComplete() {
   app.isLoaded = true
-}
-
-function checkKey(e) {
-  e = e || window.event
-  if (e.keyCode == '38' || e.keyCode == '87') {
-    app.detectiveState = "stand"
-    createjs.Sound.play("whoosh")
-  }
-  else if (e.keyCode == '40' || e.keyCode == '83') {
-    app.detectiveState = "duck"
-    createjs.Sound.play("whoosh")
-  }
-  else if (e.keyCode == '37' || e.keyCode == '65') {
-    app.detectiveState = "left"
-    createjs.Sound.play("whoosh")
-  }
-  else if (e.keyCode == '39' || e.keyCode == '68') {
-    app.detectiveState = "right"
-    createjs.Sound.play("whoosh")
-  }
 }
 
 function checkReset(e) {
