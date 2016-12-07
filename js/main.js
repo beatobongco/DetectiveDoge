@@ -114,23 +114,23 @@ var app = new Vue({
           if (app.aliveChoice === "stand") {
             createjs.Sound.play("pistol")
             createjs.Sound.play("wilhelm")
-            this.score += this.level * 5000
+            app.score += app.level * 5000
             document.querySelector(".mobster:last-child").classList.add("bounceOut")
             setTimeout(function() {
               app.level--
             }, 500)
-            this.kills++
+            app.kills++
           }
           else {
             var mgs = createjs.Sound.play("machineGun")
             mgs.volume = 0.25
             app.bulletLocation = app.aliveChoice
-            this.score += this.level * 1000
+            app.score += app.level * 1000
           }
           app.surviveRound()
         }
         else {
-          this.bulletLocation = app.aliveChoice
+          app.bulletLocation = app.aliveChoice
           app.gameOver()
         }
       }, startingSpeed - (app.level * speedDecrement))
