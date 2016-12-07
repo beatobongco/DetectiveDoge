@@ -93,7 +93,7 @@ var app = new Vue({
       app.bulletLocation = ""
 
       //chance to spawn powerup
-      if (app.level > 1 && Math.random() < 1) {
+      if (app.level > 1 && Math.random() < 0.1) {
         app.powerUpLocation = "stand"
         app.aliveChoice = "stand"
         createjs.Sound.play("ahooga")
