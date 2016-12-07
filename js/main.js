@@ -14,8 +14,9 @@ var app = new Vue({
     hint: "",
     counter: 0,
     lastShot: "",
+    aliveChoice: "",
     powerUpLocation: "",
-    prevPPLocation: "",
+    //prevPPLocation: "",
     kills: 0,
     hammertime: null,
     gameLoop: null,
@@ -86,51 +87,62 @@ var app = new Vue({
         shotChoices.splice(index, 1)
       }
 
-      if (app.prevPPLocation) {
-        var pIndex = shotChoices.indexOf(app.prevPPLocation)
+      // if (app.prevPPLocation) {
+      //   var pIndex = shotChoices.indexOf(app.prevPPLocation)
 
-        if (pIndex > -1) {
-          shotChoices.splice(pIndex, 1)
-        }
-        app.prevPPLocation = ""
-      }
-
-      var aliveChoice = randomChoice(shotChoices)
-
-      app.lastShot = aliveChoice
-      app.hint = aliveChoice
+      //   if (pIndex > -1) {
+      //     shotChoices.splice(pIndex, 1)
+      //   }
+      //   app.prevPPLocation = ""
+      // }
 
       //chance to spawn powerup
       if (app.level > 1 && Math.random() < 0.1) {
-        var arrowIndex = shotChoices.indexOf(aliveChoice)
-
-        shotChoices.splice(arrowIndex, 1)
-        app.powerUpLocation = randomChoice(shotChoices)
+        // var arrowIndex = shotChoices.indexOf(aliveChoice)
+        // shotChoices.splice(arrowIndex, 1)
+        app.powerUpLocation = "stand" //randomChoice(shotChoices)
+        app.aliveChoice = "stand"
         createjs.Sound.play("ahooga")
       }
       else {
+        var aliveChoice = randomChoice(shotChoices)
+        app.aliveChoice = aliveChoice
+        app.lastShot = aliveChoice
+        app.hint = aliveChoice
         createjs.Sound.play("bark")
       }
 
       setTimeout(function() {
         app.hint = ""
-        if (app.detectiveState === aliveChoice) {
-          var mgs = createjs.Sound.play("machineGun")
-          mgs.volume = 0.25
+        if (app.detectiveState === app.aliveChoice) {
+          if (app.aliveChoice === "stand") {
+            createjs.Sound.play("pistol")
+            createjs.Sound.play("wilhelm")
+            app.score += app.level * 5000
+            document.querySelector(".mobster:last-child").classList.add("bounceOut")
+            setTimeout(function() {
+              app.level--
+            }, 500)
+            app.kills++
+          }
+          else {
+            var mgs = createjs.Sound.play("machineGun")
+            mgs.volume = 0.25
+          }
           app.surviveRound()
         }
-        else if (app.detectiveState === app.powerUpLocation) {
-          createjs.Sound.play("pistol")
-          createjs.Sound.play("wilhelm")
-          app.score += app.level * 5000
-          document.querySelector(".mobster:last-child").classList.add("bounceOut")
-          setTimeout(function() {
-            app.level--
-          }, 500)
-          app.kills++
-          app.prevPPLocation = app.powerUpLocation
-          app.surviveRound()
-        }
+        // else if (app.detectiveState === app.powerUpLocation) {
+        //   createjs.Sound.play("pistol")
+        //   createjs.Sound.play("wilhelm")
+        //   app.score += app.level * 5000
+        //   document.querySelector(".mobster:last-child").classList.add("bounceOut")
+        //   setTimeout(function() {
+        //     app.level--
+        //   }, 500)
+        //   app.kills++
+        //   //app.prevPPLocation = app.powerUpLocation
+        //   app.surviveRound()
+        // }
         else {
           app.gameOver()
         }
