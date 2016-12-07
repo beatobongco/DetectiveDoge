@@ -90,8 +90,17 @@
         <div class="powerup animated tada right" v-show="powerUpLocation === 'right'"></div>
       </div>
       <div class="detective dead" v-show="detectiveState === 'dead'">
-        <p>You died.</p> <br>
-        <p>You scored {{formattedScore}}!</p> <br>
+        <h3>YOU DIED.</h3>
+        <div class="scoreboard">
+          <div class="board">
+            <p>Score</p>
+            <h3>{{formattedScore}}</h3>
+          </div>
+          <div class="board">
+            <p>Best</p>
+            <h3>1,000,000</h3>
+          </div>
+        </div>
         <p>Bullets dodged: {{counter * 4}}</p>
         <p>Mobsters killed: {{kills}}</p> <br>
         <p>Tap screen or press "r" to restart.</p>

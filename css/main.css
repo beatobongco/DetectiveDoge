@@ -303,6 +303,21 @@ h1 {
   bottom: 45px;
   left: 300px;
 }
+.detective.dead h3 {
+  margin: 0;
+}
+.scoreboard {
+  display: flex;
+  text-align: center;
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
+.scoreboard .board {
+  margin: 10px;
+}
+.scoreboard .board h3 {
+  margin: 5px 0;
+}
 
 @media(max-width:767px){
   h1 {
