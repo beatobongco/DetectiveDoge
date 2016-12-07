@@ -129,7 +129,7 @@ var app = new Vue({
         }
         else {
           app.bulletLocation = app.aliveChoice
-          //app.gameOver()
+          app.gameOver()
         }
       }, startingSpeed - (app.level * speedDecrement))
     },
