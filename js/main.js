@@ -5,8 +5,7 @@ var speedDecrement = 50
 var app = new Vue({
   el: '.app',
   data: {
-    isLoaded: false,
-    isPlaying: false,
+    state: "loading",
     progress: 0,
     level: 1,
     score: 0,
@@ -16,7 +15,6 @@ var app = new Vue({
     lastShot: "",
     aliveChoice: "",
     powerUpLocation: "",
-    //prevPPLocation: "",
     kills: 0,
     hammertime: null,
     gameLoop: null,
@@ -34,7 +32,7 @@ var app = new Vue({
       this.hammertime.off("swipeleft swipedown swipeup swiperight")
     },
     startGame: function() {
-      this.isPlaying = true
+      this.state = "playing"
       this.gameLoop = setInterval(this.shootDetective, 1000)
       this.hammertime = new Hammer(document.querySelector(".app"))
       this.hammertime.on('tap', function(e) {
@@ -95,7 +93,7 @@ var app = new Vue({
       app.bulletLocation = ""
 
       //chance to spawn powerup
-      if (app.level > 1 && Math.random() < 0.1) {
+      if (app.level > 1 && Math.random() < 1) {
         app.powerUpLocation = "stand"
         app.aliveChoice = "stand"
         createjs.Sound.play("ahooga")
@@ -212,7 +210,7 @@ function handleProgress(e) {
 }
 
 function handleComplete() {
-  app.isLoaded = true
+  app.state = "menu"
 }
 
 function checkReset(e) {

@@ -17,18 +17,30 @@
   <div class="app">
     <h1>Detective Doge</h1>
 
-    <div class="loading-screen" v-if="!isLoaded">
+    <div class="loading-screen" v-show="state == 'loading'">
       Loading... {{progress}}%
     </div>
 
-    <div class="menu-screen" v-if="isLoaded && !isPlaying">
+    <div class="menu-screen" v-show="state == 'menu'">
+      <h2>Private investigator takes on mob!</h2>
+      <div class="news">
+        <img class="mugshot" src="image/incorgito.png">
+        <div>
+          <p class="blurb">Unravels Dark Conspiracy Involving Pizza Parlors and Mafia.</p>
+          <p class="article">Detective Daring Doge, a freelance private investigator, uncovered a large conspiracy yesterday involving alleged mafia kingpin Don Pablo Diablo and several pizza parlors across New York.</p>
+          <p class="article">Based on the folder Doge handed over to the authorities, the parlors are part of larger web of criminal activity including murder-for-hire, drug manufacture, and money laundering. Reliable sources say Diablo has already placed a kill order and a large bounty on the head of the corgi from the Bronx.</p>
+          <p class="article">The Don could not be reached for comment.</p>
+        </div>
+      </div>
       <ul>
         <li v-on:click="startGame">Play</li>
+        <li>Instructions</li>
+        <li>Stats</li>
         <li>Credits</li>
       </ul>
     </div>
 
-    <div class="game" v-show="isPlaying">
+    <div class="game" v-show="state === 'playing'">
 
       <div class="hud">
         <div class="level">

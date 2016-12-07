@@ -16,10 +16,9 @@ body {
 h1 {
   font-size: 80px;
   margin-top: 150px;
-  margin-bottom: 50px;
+  margin-bottom: 0;
   text-align: center;
   text-transform: uppercase;
-  text-decoration: underline;
 }
 .loading-screen {
   height: 400px;
@@ -31,9 +30,39 @@ h1 {
 .menu-screen {
 
 }
+.menu-screen h2 {
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 35px;
+}
+.menu-screen .news {
+  display: flex;
+}
+.menu-screen .news .mugshot {
+  display: block;
+  background-color: gray;
+  margin: 10px;
+  width: 50%;
+  max-width: 100%;
+  height: 100%;
+  -webkit-filter: grayscale(1);
+  filter: grayscale(100%);
+}
+.menu-screen .news .blurb {
+  font-size: 22px;
+  margin-bottom: 0;
+  margin-top: 10px;
+}
+.menu-screen .news .article {
+  font-size: 14px;
+  text-align: justify;
+}
 .menu-screen ul {
   text-align: center;
   list-style-type: none;
+  padding: 0;
 }
 .menu-screen ul li {
   cursor: pointer;
@@ -277,9 +306,12 @@ h1 {
 
 @media(max-width:767px){
   h1 {
-    font-size: 40px;
+    font-size: 50px;
     margin-top: 35px;
-    margin-bottom: 35px;
+    margin-bottom: 0;
+  }
+  h2 {
+    font-size: 22px;
   }
   .warning.left {
     margin-left: 30px;
@@ -299,11 +331,23 @@ h1 {
   .powerup.right {
     margin-left: 325px;
   }
+  .powerup.stand {
+    margin-bottom: 125px;
+  }
   .detective.left {
     margin-left: 10px;
   }
   .detective.right {
     margin-left: 250px;
+  }
+  .muzzle {
+    left: 205px;
+  }
+  .blurb {
+    font-size: 14px;
+  }
+  .article {
+    font-size: 10px;
   }
 }
 
