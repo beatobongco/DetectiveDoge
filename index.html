@@ -38,10 +38,30 @@
       </div>
 
       <div class="bullet-container">
-        <div class="bullet duck" v-show="hint === 'duck'"></div>
-        <div class="bullet duck" v-show="hint === 'left'"></div>
-        <div class="bullet duck" v-show="hint === 'right'"></div>
-        <div class="bullet all" v-show="powerUpLocation === 'stand'"></div>
+        <div class="bullets duck" v-show="bulletLocation === 'duck'">
+          <div class="bullet"></div>
+          <div class="bullet fadeIn1"></div>
+          <div class="bullet fadeIn2"></div>
+          <div class="bullet fadeIn3"></div>
+        </div>
+        <div class="bullets left" v-show="bulletLocation === 'left'">
+          <div class="bullet"></div>
+          <div class="bullet fadeIn1"></div>
+          <div class="bullet fadeIn2"></div>
+          <div class="bullet fadeIn3"></div>
+        </div>
+        <div class="bullets right" v-show="bulletLocation === 'right'">
+          <div class="bullet"></div>
+          <div class="bullet fadeIn1"></div>
+          <div class="bullet fadeIn2"></div>
+          <div class="bullet fadeIn3"></div>
+        </div>
+        <div class="bullets all" v-show="bulletLocation === 'stand'">
+          <div class="bullet"></div>
+          <div class="bullet fadeIn1"></div>
+          <div class="bullet fadeIn2"></div>
+          <div class="bullet fadeIn3"></div>
+        </div>
       </div>
 
       <div class="warning-system">
@@ -62,6 +82,7 @@
         <p>Mobsters killed: {{kills}}</p> <br>
         <p>Tap screen or press "r" to restart.</p>
       </div>
+      <div class="animated bounceOut muzzle" v-show="detectiveState === 'stand' && powerUpLocation == 'stand'"></div>
       <div class="detective stand" v-show="detectiveState === 'stand'"></div>
       <div class="detective duck" v-show="detectiveState === 'duck'"></div>
       <div class="detective left" v-show="detectiveState === 'left'"></div>

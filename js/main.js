@@ -20,7 +20,8 @@ var app = new Vue({
     kills: 0,
     hammertime: null,
     gameLoop: null,
-    bgm: null
+    bgm: null,
+    bulletLocation: "",
   },
   computed: {
     formattedScore: function() {
@@ -67,6 +68,7 @@ var app = new Vue({
         document.querySelector(".detective." + app.detectiveState).classList.remove("bounceOutDown")
         document.onkeydown = checkReset
         app.detectiveState = "dead"
+        app.bulletLocation = ""
       }, 500)
     },
     resetGame: function () {
@@ -82,30 +84,19 @@ var app = new Vue({
       this.startGame()
     },
     shootDetective: function() {
-      this.setupControls()
-      var shotChoices = ["duck", "left", "right"]
+      var shotChoices = ["left", "right", "duck"]
       //you cannot be shot in the same area as last time
-      //not as powerup
       var index = shotChoices.indexOf(app.lastShot)
 
       if (index > -1) {
         shotChoices.splice(index, 1)
       }
 
-      // if (app.prevPPLocation) {
-      //   var pIndex = shotChoices.indexOf(app.prevPPLocation)
-
-      //   if (pIndex > -1) {
-      //     shotChoices.splice(pIndex, 1)
-      //   }
-      //   app.prevPPLocation = ""
-      // }
+      app.bulletLocation = ""
 
       //chance to spawn powerup
       if (app.level > 1 && Math.random() < 0.1) {
-        // var arrowIndex = shotChoices.indexOf(aliveChoice)
-        // shotChoices.splice(arrowIndex, 1)
-        app.powerUpLocation = "stand" //randomChoice(shotChoices)
+        app.powerUpLocation = "stand"
         app.aliveChoice = "stand"
         createjs.Sound.play("ahooga")
       }
@@ -123,39 +114,29 @@ var app = new Vue({
           if (app.aliveChoice === "stand") {
             createjs.Sound.play("pistol")
             createjs.Sound.play("wilhelm")
-            app.score += app.level * 5000
+            this.score += this.level * 5000
             document.querySelector(".mobster:last-child").classList.add("bounceOut")
             setTimeout(function() {
               app.level--
             }, 500)
-            app.kills++
+            this.kills++
           }
           else {
             var mgs = createjs.Sound.play("machineGun")
             mgs.volume = 0.25
+            app.bulletLocation = app.aliveChoice
+            this.score += this.level * 1000
           }
           app.surviveRound()
         }
-        // else if (app.detectiveState === app.powerUpLocation) {
-        //   createjs.Sound.play("pistol")
-        //   createjs.Sound.play("wilhelm")
-        //   app.score += app.level * 5000
-        //   document.querySelector(".mobster:last-child").classList.add("bounceOut")
-        //   setTimeout(function() {
-        //     app.level--
-        //   }, 500)
-        //   app.kills++
-        //   //app.prevPPLocation = app.powerUpLocation
-        //   app.surviveRound()
-        // }
         else {
+          this.bulletLocation = app.aliveChoice
           app.gameOver()
         }
       }, startingSpeed - (app.level * speedDecrement))
     },
     surviveRound: function() {
       this.powerUpLocation = ""
-      this.score += this.level * 1000
       this.counter++
 
       if (this.counter % 5 === 0) {
@@ -196,7 +177,6 @@ var app = new Vue({
     moveDetective: function(direction) {
       app.detectiveState = direction
       createjs.Sound.play("whoosh")
-      app.removeControls()
     }
   }
 })

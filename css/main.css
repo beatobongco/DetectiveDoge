@@ -55,6 +55,7 @@ h1 {
   align-items: flex-end;
   position: relative;
   background-image: url(../image/wall.jpg);
+  position: relative;
 }
 .hud {
   padding: 5px;
@@ -65,14 +66,97 @@ h1 {
   align-items: center;
   background-color: #c0392b;
 }
-.level {
+.hud .level {
   width: 75%;
 }
-.score {
+.hud .score {
   width: 25%;
   text-align: right;
   font-weight: 700;
   margin-right: 5px;
+}
+.bullet-container .bullets .bullet {
+  width: 48px;
+  height: 34px;
+  background-image: url(../image/bullet.png);
+}
+.bullet-container,
+.bullet-container .bullets {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+}
+.bullet-container .bullets .bullet {
+  position: absolute;
+}
+.bullet-container {
+  z-index: 101;
+}
+.bullet-container .bullets.duck .bullet:first-child {
+  bottom: 17%;
+  left: 24%;
+}
+.bullet-container .bullets.duck .bullet:nth-child(2) {
+  bottom: 25%;
+  left: 40%;
+}
+.bullet-container .bullets.duck .bullet:nth-child(3) {
+  bottom: 32%;
+  left: 55%;
+}
+.bullet-container .bullets.duck .bullet:nth-child(4) {
+  bottom: 20%;
+  left: 75%;
+}
+.bullet-container .bullets.left .bullet:first-child {
+  bottom: 11%;
+  left: 64%;
+}
+.bullet-container .bullets.left .bullet:nth-child(2) {
+  bottom: 14%;
+  left: 48%;
+}
+.bullet-container .bullets.left .bullet:nth-child(3) {
+  bottom: 25%;
+  left: 42%;
+}
+.bullet-container .bullets.left .bullet:nth-child(4) {
+  bottom: 35%;
+  left: 30%;
+}
+.bullet-container .bullets.right .bullet:first-child {
+  bottom: 20%;
+  left: 17%;
+}
+.bullet-container .bullets.right .bullet:nth-child(2) {
+  bottom: 23%;
+  left: 33%;
+}
+.bullet-container .bullets.right .bullet:nth-child(3) {
+  bottom: 26%;
+  left: 50%;
+}
+.bullet-container .bullets.right .bullet:nth-child(4) {
+  bottom: 30%;
+  left: 77%;
+}
+.bullet-container .bullets.all .bullet:first-child {
+  bottom: 15%;
+  left: 25%;
+}
+.bullet-container .bullets.all .bullet:nth-child(2) {
+  bottom: 24%;
+  left: 41%;
+}
+.bullet-container .bullets.all .bullet:nth-child(3) {
+  bottom: 7%;
+  left: 50%;
+}
+.bullet-container .bullets.all .bullet:nth-child(4) {
+  bottom: 9%;
+  left: 75%;
 }
 .warning-system,
 .powerup-container {
@@ -101,7 +185,7 @@ h1 {
   padding: 5px;
 }
 .powerup.stand {
-  margin-bottom: 25%;
+  margin-bottom: 23%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -180,6 +264,15 @@ h1 {
 }
 .detective.dead p {
   margin: 0;
+}
+.muzzle {
+  width: 48px;
+  height: 44px;
+  background-image: url(../image/muzzle.png);
+  z-index: 120;
+  position: absolute;
+  bottom: 45px;
+  left: 300px;
 }
 
 @media(max-width:767px){
@@ -306,6 +399,56 @@ h1 {
   50%, 55% {
     opacity: 1;
     transform: scale3d(1.25, 1.25, 1.25);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale3d(.3, .3, .3);
+  }
+}
+
+.bounceOut {
+  animation-duration: .5s;
+  animation-fill-mode: both;
+  animation-name: bounceOut;
+}
+
+@keyframes fadeIn {
+  0%, 90% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.fadeIn1 {
+  animation-duration: .1s;
+  animation-fill-mode: both;
+  animation-name: fadeIn;
+}
+
+.fadeIn2 {
+  animation-duration: .175s;
+  animation-fill-mode: both;
+  animation-name: fadeIn;
+}
+
+.fadeIn3 {
+  animation-duration: .25s;
+  animation-fill-mode: both;
+  animation-name: fadeIn;
+}
+
+@keyframes bounceOut {
+  20% {
+    transform: scale3d(.9, .9, .9);
+  }
+
+  50%, 55% {
+    opacity: 1;
+    transform: scale3d(1.1, 1.1, 1.1);
   }
 
   to {
