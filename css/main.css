@@ -156,20 +156,20 @@ h1 {
   left: 30%;
 }
 .bullet-container .bullets.right .bullet:first-child {
-  bottom: 20%;
-  left: 17%;
+  bottom: 18%;
+  left: 25%;
 }
 .bullet-container .bullets.right .bullet:nth-child(2) {
-  bottom: 23%;
-  left: 33%;
+  bottom: 25%;
+  left: 40%;
 }
 .bullet-container .bullets.right .bullet:nth-child(3) {
-  bottom: 26%;
-  left: 50%;
+  bottom: 13%;
+  left: 49%;
 }
 .bullet-container .bullets.right .bullet:nth-child(4) {
-  bottom: 30%;
-  left: 77%;
+  bottom: 25%;
+  left: 60%;
 }
 .bullet-container .bullets.all .bullet:first-child {
   bottom: 15%;
